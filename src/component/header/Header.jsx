@@ -75,7 +75,7 @@ function Header(props) {
         <AppBar position="static">
             <Toolbar>
                 <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                    Material-UI
+                    Article List
                 </Typography>
                 <div className={classes.grow} />
                 <div className={classes.search}>

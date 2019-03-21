@@ -16,7 +16,7 @@ class App extends Component {
                     <Route path='/' exact render={() => <ItemList data={data} />} />
                     <Route path='/:id' render={({match}) => {
                         const { id } = match.params
-                        return <ItemPage itemId={id} />
+                        return <ItemPage itemId={id} data={data} />
                         }} />
                 </Router>
             </div>

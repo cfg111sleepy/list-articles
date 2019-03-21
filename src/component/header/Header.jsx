@@ -7,6 +7,7 @@ import InputBase from '@material-ui/core/InputBase'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import { withStyles } from '@material-ui/core/styles'
 import SearchIcon from '@material-ui/icons/Search'
+import { Link } from 'react-router-dom'
 
 const styles = theme => ({
   root: {
@@ -24,6 +25,10 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
+  },
+  appheader: {
+    textDecoration: 'none',
+    color: '#fff'
   },
   search: {
     position: 'relative',
@@ -75,7 +80,9 @@ function Header(props) {
         <AppBar position="static">
             <Toolbar>
                 <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                    Article List
+                    <Link to='/' className={classes.appheader}>
+                        Article List
+                    </Link>
                 </Typography>
                 <div className={classes.grow} />
                 <div className={classes.search}>
@@ -93,11 +100,11 @@ function Header(props) {
             </Toolbar>
         </AppBar>
     </div>
-  );
+  )
 }
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
-};
+}
 
 export default withStyles(styles)(Header);

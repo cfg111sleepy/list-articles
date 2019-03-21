@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Header from '../component/header/Header'
 
 class App extends Component {
     render() {
-        const { name } = this.props.store
         return (
             <div>
-                {name}
+                <Header />
             </div>
         )
     }

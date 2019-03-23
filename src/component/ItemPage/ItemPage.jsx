@@ -20,7 +20,7 @@ class ItemPage extends Component {
 
     handleExpandClick = () => {
         this.setState(state => ({ expanded: !state.expanded }));
-      };
+    };
 
     render() {
 
@@ -52,11 +52,11 @@ class ItemPage extends Component {
                             {artcleElement.title}
                         </Typography>
                         <Typography component="p" variant="subtitle1">
-                           {artcleElement.body}
+                            {artcleElement.body}
                         </Typography>
                         <IconButton
                             className={classnames(classes.expand, {
-                              [classes.expandOpen]: this.state.expanded,
+                                [classes.expandOpen]: this.state.expanded,
                             })}
                             onClick={this.handleExpandClick}
                             aria-expanded={this.state.expanded}

@@ -9,10 +9,14 @@ import { withStyles } from '@material-ui/core/styles'
 
 
 class ArticleList extends Component {
-    render() {
-        const { article, classes } = this.props
 
-        const element = article.map((item) =>
+    
+    render() {
+        const { article, classes, search } = this.props
+
+        const articleArray = article.filter(item => item.title.indexOf(search) !== -1 )
+
+        const element = articleArray.map((item) =>
                                         <Link 
                                             to={`/${item.id}`} 
                                             className={classes.url} 

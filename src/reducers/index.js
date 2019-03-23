@@ -55,11 +55,19 @@ const initialState = {
             email: "Hayden@althea.biz",
             body: "harum non quasi et ratione\ntempore iure ex voluptates in ratione\nharum architecto fugit inventore cupiditate\nvoluptates magni quo et"
           },
-    ]
+    ],
+    search: ''
 }
 
 function rootReducer(state = initialState, action) {
-    return state
+    switch(action.type){
+
+      case 'SEARCH':
+      return { ...state, search: action.payload }
+
+      default:
+      return state
+    }
 }
 
 export {

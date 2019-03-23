@@ -6,6 +6,9 @@ import classnames from 'classnames'
 import IconButton from '@material-ui/core/IconButton'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Collapse from '@material-ui/core/Collapse'
+import TextField from '@material-ui/core/TextField'
+import AddComment from '@material-ui/icons/AddComment'
+import Fab from '@material-ui/core/Fab'
 
 
 class ItemPage extends Component {
@@ -69,6 +72,33 @@ class ItemPage extends Component {
                                Comments:
                             </Typography>
                             {commentsElement}
+                            <Typography variant="h7" component="h4" >
+                               Add Comment
+                            </Typography>
+                            <div className={classes.commentForm}>
+                                <TextField
+                                    id="outlined-email-input"
+                                    label="Email"
+                                    className={classes.textField}
+                                    type="email"
+                                    name="email"
+                                    autoComplete="email"
+                                    margin="normal"
+                                    variant="outlined"
+                                />
+                                <TextField
+                                    id="outlined-textarea"
+                                    label="Text Comment"
+                                    multiline
+                                    className={classes.textField}
+                                    margin="normal"
+                                    variant="outlined"
+                                />
+                                <Fab color='primary' variant="extended" aria-label="Delete" className={classes.fab}>
+                                    <AddComment className={classes.extendedIcon} />
+                                    Add Comment
+                                </Fab>
+                            </div>
                         </Collapse>
                     </Paper>
                 </div>
@@ -99,6 +129,16 @@ const styles = theme => ({
     expandOpen: {
         transform: 'rotate(180deg)',
     },
+    textField: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+    },
+    commentForm: { 
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifContent: 'start'
+    }
   });
 
 export default withStyles(styles)(ItemPage)

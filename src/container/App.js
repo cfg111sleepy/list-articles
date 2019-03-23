@@ -36,9 +36,9 @@ class App extends Component {
 
 const mapStateToProps = (store) => {
     return {
-        article: store.article,
-        comments: store.comments,
-        search: store.search
+        article: store.articleReducer.article,
+        comments: store.commentReducer.comments,
+        search: store.searchReducer.search
     }
 }
 

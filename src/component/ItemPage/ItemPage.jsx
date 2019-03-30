@@ -9,6 +9,8 @@ import Collapse from '@material-ui/core/Collapse'
 import TextField from '@material-ui/core/TextField'
 import AddComment from '@material-ui/icons/AddComment'
 import Fab from '@material-ui/core/Fab'
+import { databaseRef } from '../../configDB/config'
+
 
 
 class ItemPage extends Component {
@@ -17,13 +19,38 @@ class ItemPage extends Component {
         super()
 
         this.state = {
-            expanded: false
+            expanded: false,
+            email: '',
+            comment: ''
         }
     }
 
     handleExpandClick = () => {
-        this.setState(state => ({ expanded: !state.expanded }));
-    };
+        this.setState(state => ({ expanded: !state.expanded }))
+        const data = databaseRef.child('list-article')
+        console.log(data)
+    }
+
+    handleChange = name => event => {
+        this.setState({
+            [name]: event.target.value,
+        })
+    }
+
+    addCommentToDB = () => {
+        const postRef = databaseRef.child(Date.now())
+        const { email, comment } = this.state
+        const { itemId } = this.props 
+
+        console.log(this.state)
+
+        postRef.set({
+
+            postId: itemId,
+            email,
+            comment 
+        })
+    }
 
     render() {
 
@@ -72,11 +99,13 @@ class ItemPage extends Component {
                                Comments:
                             </Typography>
                             {commentsElement}
-                            <Typography variant="h7" component="h4" >
+                            <Typography component="h4" >
                                Add Comment
                             </Typography>
                             <div className={classes.commentForm}>
                                 <TextField
+                                    onChange={this.handleChange('email')}
+                                    value={this.state.email}
                                     id="outlined-email-input"
                                     label="Email"
                                     className={classes.textField}
@@ -87,6 +116,8 @@ class ItemPage extends Component {
                                     variant="outlined"
                                 />
                                 <TextField
+                                    onChange={this.handleChange('comment')}
+                                    value={this.state.comment}
                                     id="outlined-textarea"
                                     label="Text Comment"
                                     multiline
@@ -94,8 +125,16 @@ class ItemPage extends Component {
                                     margin="normal"
                                     variant="outlined"
                                 />
-                                <Fab color='primary' variant="extended" aria-label="Delete" className={classes.fab}>
-                                    <AddComment className={classes.extendedIcon} />
+                                <Fab 
+                                    color='primary' 
+                                    variant="extended" 
+                                    aria-label="Delete" 
+                                    className={classes.fab}
+                                    onClick={this.addCommentToDB}
+                                >
+                                    <AddComment 
+                                        className={classes.extendedIcon} 
+                                    />
                                     Add Comment
                                 </Fab>
                             </div>

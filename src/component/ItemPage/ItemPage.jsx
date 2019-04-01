@@ -37,19 +37,12 @@ class ItemPage extends Component {
         })
     }
 
-    addCommentToDB = () => {
-        const postRef = databaseRef.child(Date.now())
+    addCommentToDB = e => {
+        e.preventDefault()
         const { email, comment } = this.state
-        const { itemId } = this.props 
+        const { itemId, createComment } = this.props 
 
-        console.log(this.state)
-
-        postRef.set({
-
-            postId: itemId,
-            email,
-            comment 
-        })
+        createComment(email, comment, itemId)
     }
 
     render() {

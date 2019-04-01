@@ -37,6 +37,16 @@ const initialState = {
           },
     ]
 }
-export function commentReducer(state = initialState, action) {
-    return state
+
+export const commentReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case 'CREATE_COMMENT_SUCCESS':
+            return state
+        case 'CREATE_COMMENT_ERROR':
+            return state
+        default:
+            return state
+    }
 }
+
+

@@ -5,7 +5,7 @@ import ArticleList from '../component/ArticleList/ArticleList'
 import ItemPage from '../component/ItemPage/ItemPage'
 import { searchArticle } from '../actions/searchAction'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-
+import { createComment } from '../actions/commentAction'
 
 class App extends Component {
     render() {
@@ -25,8 +25,9 @@ class App extends Component {
                         return <ItemPage 
                                     itemId={id} 
                                     article={article}
-                                    comments={comments} 
-                                    />
+                                    comments={comments}
+                                    createComment={createComment}
+                                />
                         }} />
                 </Router>
             </div>
@@ -44,7 +45,9 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        searchArticle: article => dispatch(searchArticle(article))
+        searchArticle: article => dispatch(searchArticle(article)),
+        createComment: (comment) => dispatch(createComment(comment))
+
     }
 }
 

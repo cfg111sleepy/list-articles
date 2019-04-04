@@ -9,7 +9,6 @@ import Collapse from '@material-ui/core/Collapse'
 import TextField from '@material-ui/core/TextField'
 import AddComment from '@material-ui/icons/AddComment'
 import Fab from '@material-ui/core/Fab'
-import { databaseRef } from '../../configDB/config'
 
 
 
@@ -27,8 +26,6 @@ class ItemPage extends Component {
 
     handleExpandClick = () => {
         this.setState(state => ({ expanded: !state.expanded }))
-        const data = databaseRef.child('list-article')
-        console.log(data)
     }
 
     handleChange = name => event => {
@@ -37,17 +34,17 @@ class ItemPage extends Component {
         })
     }
 
-    addCommentToDB = e => {
-        e.preventDefault()
+    addCommentToDB = e => {        
         const { email, comment } = this.state
         const { itemId, createComment } = this.props 
-
+        
         createComment(email, comment, itemId)
     }
 
     render() {
-
-        const { itemId, article, comments, classes } = this.props
+        const { itemId, article, comments, classes, dbComments } = this.props
+        let commentsArrayDB = null
+        let commentsElementDB = null
 
         const idx = article.map(item => 
                                         item.id).indexOf(Number(itemId))
@@ -66,9 +63,26 @@ class ItemPage extends Component {
                                                                 {item.name}
                                                             </Typography>
                                                         </div>))
+        if (dbComments) {
+            commentsArrayDB = Object.values(dbComments).filter(item => 
+                                                                    Number(item.itemId) === Number(itemId))
+
+            commentsElementDB = commentsArrayDB.map(item =>(
+                                                        <div key={item.createComment}>
+                                                            <Typography component="p">
+                                                                <Typography variant="caption">
+                                                                    {item.email}
+                                                                </Typography>
+                                                                {item.comment}
+                                                            </Typography>
+                                                        </div>
+                                                            
+            ))
+        }
 
         return (
             <Fragment>
+                {console.log(commentsArrayDB)}
                 <div className={classes.center}>
                     <Paper className={classes.root} elevation={1}>
                         <Typography variant="h5" component="h3" align="center">
@@ -92,6 +106,7 @@ class ItemPage extends Component {
                                Comments:
                             </Typography>
                             {commentsElement}
+                            {commentsElementDB}
                             <Typography component="h4" >
                                Add Comment
                             </Typography>

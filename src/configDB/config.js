@@ -1,4 +1,4 @@
-import firebase from 'firebase/app'
+import firebase from 'firebase'
 import 'firebase/firestore'
 import 'firebase/auth'
 
@@ -16,9 +16,7 @@ firebase.initializeApp(config)
 firebase.firestore().settings({ timestampsInSnapshots: true });
 
 
-const databaseRef = firebase.database().ref()
 
 export {
-    firebase,
-    databaseRef
+    firebase
 }

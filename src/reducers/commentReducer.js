@@ -43,6 +43,7 @@ export const commentReducer = (state = initialState, action) => {
         case 'CREATE_COMMENT_SUCCESS':
             return state
         case 'CREATE_COMMENT_ERROR':
+            console.error(action.err)
             return state
         default:
             return state

@@ -1,13 +1,15 @@
-export const createComment = (comment) => {
-    return (dispatch, {getFirestore}) => {
+export const createComment = (email, comment, itemId) => {
+    return (dispatch, getState, { getFirestore }) => {
         const firestore = getFirestore()
         firestore.collection('comment').add({
-            ...comment,
-            createComment: new Date()
+            createComment: new Date(),
+            email,
+            comment,
+            itemId
         }).then(() => {
             dispatch({ type: 'CREATE_COMMENT_SUCCESS' })
         }).catch(err => {
             dispatch({ type: 'CREATE_COMMENT_ERROR' }, err)
         })
     }
-  };
+}

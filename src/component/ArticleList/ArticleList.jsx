@@ -13,21 +13,25 @@ class ArticleList extends Component {
     
     render() {
         const { article, classes, search } = this.props
+        let articleArray = null
+        let element = null
 
-        const articleArray = article.filter(item => item.title.indexOf(search) !== -1 )
+        if (article){
+            articleArray = Object.values(article).filter(item => item.title.indexOf(search) !== -1 )
 
-        const element = articleArray.map((item) =>
-                                        <Link 
-                                            to={`/${item.id}`} 
-                                            className={classes.url} 
-                                            key={item.id}
-                                        >
-                                            <ListItem button>
-                                                <ListItemText primary={item.title} />
-                                            <Divider/>
-                                            </ListItem>
-                                        </Link>
-                                    )
+            element = articleArray.map((item) =>
+                                            <Link 
+                                                to={`/${item.id}`} 
+                                                className={classes.url} 
+                                                key={item.id}
+                                            >
+                                                <ListItem button>
+                                                    <ListItemText primary={item.title} />
+                                                <Divider/>
+                                                </ListItem>
+                                            </Link>
+                                        )
+        }
         return (
             <div>
                 <List component="nav" className={classes.root}>

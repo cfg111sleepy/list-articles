@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { createComment } from '../actions/commentAction'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+import { getArticle } from '../actions/articleAction'
  
 
 class App extends Component {
@@ -23,7 +24,7 @@ class App extends Component {
                                                             search={search} 
                                                         />} 
                     />
-                    <Route path='/:id' render={({match}) => {
+                    <Route path='/:id' render={({ match }) => {
                                             const { id } = match.params
                                             return  <ItemPage 
                                                         itemId={id} 
@@ -42,7 +43,7 @@ class App extends Component {
 
 const mapStateToProps = (store) => {
     return {
-        article: store.articleReducer.article,
+        article: store.articleReducer,
         comments: store.commentReducer.comments,
         search: store.searchReducer.search,
         dbComments: store.firestore.data.comment
@@ -53,7 +54,8 @@ const mapStateToProps = (store) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         searchArticle: article => dispatch(searchArticle(article)),
-        createComment: (email, comment, itemId) => dispatch(createComment(email, comment, itemId))
+        createComment: (email, comment, itemId) => dispatch(createComment(email, comment, itemId)),
+        getArticle: dispatch(getArticle())
     }
 }
 

@@ -34,7 +34,8 @@ class ItemPage extends Component {
         })
     }
 
-    addCommentToDB = e => {        
+    addCommentToDB = e => {
+        e.preventDefault()
         const { email, comment } = this.state
         const { itemId, createComment } = this.props 
         
@@ -45,24 +46,30 @@ class ItemPage extends Component {
         const { itemId, article, comments, classes, dbComments } = this.props
         let commentsArrayDB = null
         let commentsElementDB = null
+        let idx = null
+        let commentsArray = null
+        let commentsElement = null
+        let articleElement = null
+        if (article) {
+            idx = Object.values(article).map(item => 
+                                                    item.id).indexOf(Number(itemId))
+        
 
-        const idx = article.map(item => 
-                                        item.id).indexOf(Number(itemId))
-
-        const artcleElement = article[idx]
-
-        const commentsArray = comments.filter(item => 
+            articleElement = article[idx]
+                
+            commentsArray = comments.filter(item => 
                                                     item.postId === Number(itemId))
-
-        const commentsElement = commentsArray.map(item => (
-                                                        <div key={item.id}>
-                                                            <Typography component="p">
-                                                                <Typography variant="caption">
-                                                                    {item.email}
+            
+            commentsElement = commentsArray.map(item => (
+                                                            <div key={item.id}>
+                                                                <Typography component="p">
+                                                                    <Typography variant="caption">
+                                                                        email: {item.email}
+                                                                    </Typography>
+                                                                    {item.name}
                                                                 </Typography>
-                                                                {item.name}
-                                                            </Typography>
-                                                        </div>))
+                                                            </div>))
+        }
         if (dbComments) {
             commentsArrayDB = Object.values(dbComments).filter(item => 
                                                                     Number(item.itemId) === Number(itemId))
@@ -71,7 +78,7 @@ class ItemPage extends Component {
                                                         <div key={item.createComment}>
                                                             <Typography component="p">
                                                                 <Typography variant="caption">
-                                                                    {item.email}
+                                                                    email: {item.email}
                                                                 </Typography>
                                                                 {item.comment}
                                                             </Typography>
@@ -82,14 +89,13 @@ class ItemPage extends Component {
 
         return (
             <Fragment>
-                {console.log(commentsArrayDB)}
                 <div className={classes.center}>
                     <Paper className={classes.root} elevation={1}>
                         <Typography variant="h5" component="h3" align="center">
-                            {artcleElement.title}
+                            {articleElement ? articleElement.title : null}
                         </Typography>
                         <Typography component="p" variant="subtitle1">
-                            {artcleElement.body}
+                            {articleElement ? articleElement.body : null}
                         </Typography>
                         <IconButton
                             className={classnames(classes.expand, {
@@ -110,7 +116,7 @@ class ItemPage extends Component {
                             <Typography component="h4" >
                                Add Comment
                             </Typography>
-                            <div className={classes.commentForm}>
+                            <form className={classes.commentForm} >
                                 <TextField
                                     onChange={this.handleChange('email')}
                                     value={this.state.email}
@@ -145,7 +151,7 @@ class ItemPage extends Component {
                                     />
                                     Add Comment
                                 </Fab>
-                            </div>
+                            </form>
                         </Collapse>
                     </Paper>
                 </div>

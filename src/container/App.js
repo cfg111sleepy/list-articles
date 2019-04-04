@@ -9,6 +9,8 @@ import { createComment } from '../actions/commentAction'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { getArticle } from '../actions/articleAction'
+import { getComment } from '../actions/commentAction'
+
  
 
 class App extends Component {
@@ -44,7 +46,7 @@ class App extends Component {
 const mapStateToProps = (store) => {
     return {
         article: store.articleReducer,
-        comments: store.commentReducer.comments,
+        comments: store.commentReducer,
         search: store.searchReducer.search,
         dbComments: store.firestore.data.comment
     }
@@ -55,7 +57,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         searchArticle: article => dispatch(searchArticle(article)),
         createComment: (email, comment, itemId) => dispatch(createComment(email, comment, itemId)),
-        getArticle: dispatch(getArticle())
+        getArticle: dispatch(getArticle()),
+        getComment: dispatch(getComment())
     }
 }
 

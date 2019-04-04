@@ -13,3 +13,18 @@ export const createComment = (email, comment, itemId) => {
         })
     }
 }
+
+export const getComment = () => {
+    return dispatch => {
+        fetch('https://jsonplaceholder.typicode.com/comments')
+            .then(response => response.json())
+            .then(json => dispatch({
+                type: 'GET_COMMENT_SUCCESS',
+                payload: json
+            }))
+            .catch(()=> dispatch({
+                type: 'GET_COMMENT_FAIL',
+                payload: null
+            }))
+    }
+}

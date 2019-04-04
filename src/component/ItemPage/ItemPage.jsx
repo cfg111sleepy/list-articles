@@ -9,6 +9,8 @@ import Collapse from '@material-ui/core/Collapse'
 import TextField from '@material-ui/core/TextField'
 import AddComment from '@material-ui/icons/AddComment'
 import Fab from '@material-ui/core/Fab'
+import Divider from '@material-ui/core/Divider'
+
 
 
 
@@ -50,14 +52,14 @@ class ItemPage extends Component {
         let commentsArray = null
         let commentsElement = null
         let articleElement = null
-        if (article) {
+        if (article && comments) {
             idx = Object.values(article).map(item => 
                                                     item.id).indexOf(Number(itemId))
         
 
             articleElement = article[idx]
                 
-            commentsArray = comments.filter(item => 
+            commentsArray = Object.values(comments).filter(item => 
                                                     item.postId === Number(itemId))
             
             commentsElement = commentsArray.map(item => (
@@ -68,6 +70,7 @@ class ItemPage extends Component {
                                                                     </Typography>
                                                                     {item.name}
                                                                 </Typography>
+                                                                <Divider />
                                                             </div>))
         }
         if (dbComments) {
@@ -82,6 +85,7 @@ class ItemPage extends Component {
                                                                 </Typography>
                                                                 {item.comment}
                                                             </Typography>
+                                                            <Divider />
                                                         </div>
                                                             
             ))

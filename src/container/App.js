@@ -10,12 +10,22 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { getArticle } from '../actions/articleAction'
 import { getComment } from '../actions/commentAction'
+import { setPage } from '../actions/pageAction'
 
  
 
 class App extends Component {
     render() {
-        const { article, comments, search, searchArticle, createComment, dbComments } = this.props
+        const { article,
+                comments,
+                search,
+                searchArticle,
+                createComment,
+                dbComments,
+                setPage,
+                currentPage,
+                preLoader } = this.props
+
         return (
             <div>
                 <Router>
@@ -24,6 +34,9 @@ class App extends Component {
                                                         <ArticleList 
                                                             article={article}
                                                             search={search} 
+                                                            setPage={setPage}
+                                                            currentPage={currentPage}
+                                                            preLoader={preLoader}
                                                         />} 
                     />
                     <Route path='/:id' render={({ match }) => {
@@ -48,7 +61,9 @@ const mapStateToProps = (store) => {
         article: store.articleReducer,
         comments: store.commentReducer,
         search: store.searchReducer.search,
-        dbComments: store.firestore.data.comment
+        dbComments: store.firestore.data.comment,
+        currentPage: store.pageReducer.currentPage,
+        preLoader: store.pageReducer.preLoader
     }
     
 }
@@ -57,6 +72,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         searchArticle: article => dispatch(searchArticle(article)),
         createComment: (email, comment, itemId) => dispatch(createComment(email, comment, itemId)),
+        setPage: page => dispatch(setPage(page)),
         getArticle: dispatch(getArticle()),
         getComment: dispatch(getComment())
     }

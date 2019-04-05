@@ -5,19 +5,47 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
 import { withStyles } from '@material-ui/core/styles'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 
 
 class ArticleList extends Component {
 
+    constructor() {
+        super()
+
+        this.state = {
+            articlePerPage: 10,
+        }
+    }
     
+    handleClick = event => {
+        const { setPage } = this.props
+        const page = Number(event.target.id)
+        console.log(page)
+        setPage(page)
+    }
+
     render() {
-        const { article, classes, search } = this.props
+        const { article, classes, search, currentPage, preLoader } = this.props
+        const { articlePerPage } = this.state
         let articleArray = null
         let element = null
+        let list = null
+        let currentArticle = []
+        const pageNumbers = []
+
+        const indexOfLastArticle = currentPage * articlePerPage
+        const indexOfFirstArticle = indexOfLastArticle - articlePerPage
+
+       
+        
 
         if (article){
-            articleArray = Object.values(article).filter(item => item.title.indexOf(search) !== -1 )
+ 
+            currentArticle = Object.values(article).slice(indexOfFirstArticle, indexOfLastArticle)
+
+            articleArray = currentArticle.filter(item => item.title.indexOf(search) !== -1 )
 
             element = articleArray.map((item) =>
                                             <Link 
@@ -31,12 +59,37 @@ class ArticleList extends Component {
                                                 </ListItem>
                                             </Link>
                                         )
+            
+            for (let i = 1; i <= Math.ceil(Object.values(article).length / articlePerPage); i++) {
+                pageNumbers.push(i);
+            }        
+
+            const renderPageNumbers = pageNumbers.map(number => {
+                return (
+                    <li
+                        key={number}
+                        id={number}
+                        onClick={this.handleClick}
+                    >   
+                        { number }
+                  </li>
+                )
+              })
+            list = (<List component="nav" className={classes.root}>
+                         { element }
+                        <ul id="page-numbers">
+                            {renderPageNumbers}
+                        </ul> 
+                    </List>)
         }
+        const getBody = () => {
+            if (list && !preLoader) return list
+            else return <CircularProgress   />
+        }
+
         return (
             <div>
-                <List component="nav" className={classes.root}>
-                    {element}
-                </List>
+                {getBody()}
             </div>
         )
     }

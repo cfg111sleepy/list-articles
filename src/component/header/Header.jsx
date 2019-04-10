@@ -50,6 +50,7 @@ class Header extends Component {
 
 Header.propTypes = {
     classes: PropTypes.object.isRequired,
+    searchArticle: PropTypes.func.isRequired    
 }
 const styles = theme => ({
     root: {

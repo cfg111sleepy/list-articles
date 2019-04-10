@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField'
 import AddComment from '@material-ui/icons/AddComment'
 import Fab from '@material-ui/core/Fab'
 import Divider from '@material-ui/core/Divider'
+import { PropTypes } from 'prop-types'
 
 
 
@@ -52,6 +53,7 @@ class ItemPage extends Component {
         let commentsArray = null
         let commentsElement = null
         let articleElement = null
+
         if (article && comments) {
             idx = Object.values(article).map(item => 
                                                     item.id).indexOf(Number(itemId))
@@ -73,6 +75,7 @@ class ItemPage extends Component {
                                                                 <Divider />
                                                             </div>))
         }
+
         if (dbComments) {
             commentsArrayDB = Object.values(dbComments).filter(item => 
                                                                     Number(item.itemId) === Number(itemId))
@@ -162,6 +165,15 @@ class ItemPage extends Component {
             </Fragment>
         )
     }
+}
+
+ItemPage.proptype = {
+    classes: PropTypes.object.isRequired,
+    itemId: PropTypes.number.isRequired,
+    article: PropTypes.object.isRequired,
+    comments: PropTypes.object.isRequired,
+    createComment: PropTypes.func.isRequired,
+    dbComments: PropTypes.object.isRequired
 }
 
 const styles = theme => ({

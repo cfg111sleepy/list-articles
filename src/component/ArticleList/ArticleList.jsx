@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
 import { withStyles } from '@material-ui/core/styles'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { PropTypes } from 'prop-types'
 
 
 
@@ -93,6 +94,14 @@ class ArticleList extends Component {
             </div>
         )
     }
+}
+
+ArticleList.propTypes = {
+    classes: PropTypes.object.isRequired,
+    article: PropTypes.object.isRequired,
+    search: PropTypes.string,
+    currentPage: PropTypes.number.isRequired,
+    preLoader: PropTypes.bool.isRequired
 }
 
 const styles = theme => ({

@@ -1,9 +1,7 @@
-const initialState = {
-    preLoader: false,
-    currentPage: 1
-}
+import { initialState } from './index'
 
 export const pageReducer = (state = initialState, action) => {
+    
     switch(action.type) {
         case 'SET_PAGE_REQUEST':
             return {...state, currentPage: null, preLoader: true}

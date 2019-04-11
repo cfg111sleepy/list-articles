@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -10,43 +10,44 @@ import SearchIcon from '@material-ui/icons/Search'
 import { Link } from 'react-router-dom'
 
 
-class Header extends Component {
+function Header(props) {
 
-    handleSearch = (event) => {
-        this.props.searchArticle(event.target.value)
+    const { classes, searchArticle } = props
+
+
+    const handleSearch = (event) => {
+        searchArticle(event.target.value)
     }
-
-    render() {
-        const { classes } = this.props
-        return (
-            <div className={classes.root}>
-                <AppBar position="static">
-                    <Toolbar>
-                        <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                            <Link to='/' className={classes.appheader}>
-                                Article List
-                            </Link>
-                        </Typography>
-                        <div className={classes.grow} />
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                onChange={this.handleSearch}
-                          />
+        
+    return (
+        <div className={classes.root}>
+            <AppBar position="static">
+                <Toolbar>
+                    <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                        <Link to='/' className={classes.appheader}>
+                            Article List
+                        </Link>
+                    </Typography>
+                    <div className={classes.grow} />
+                    <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                            <SearchIcon />
                         </div>
-                    </Toolbar>
-                </AppBar>
-            </div>
-        )
-    }
+                        <InputBase
+                            placeholder="Search…"
+                            classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput,
+                            }}
+                            onChange={handleSearch}
+                      />
+                    </div>
+                </Toolbar>
+            </AppBar>
+        </div>
+    )
 }
+
 
 Header.propTypes = {
     classes: PropTypes.object.isRequired,

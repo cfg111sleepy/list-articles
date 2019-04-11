@@ -46,7 +46,7 @@ class ItemPage extends Component {
     }
 
     render() {
-        const { itemId, article, comments, classes, dbComments } = this.props
+        const { itemId, articles, comments, classes, dbComments } = this.props
         let commentsArrayDB = null
         let commentsElementDB = null
         let idx = null
@@ -54,14 +54,13 @@ class ItemPage extends Component {
         let commentsElement = null
         let articleElement = null
 
-        if (article && comments) {
-            idx = Object.values(article).map(item => 
-                                                    item.id).indexOf(Number(itemId))
+        if (articles && comments) {
+            idx = articles.map(item => item.id).indexOf(Number(itemId))
         
 
-            articleElement = article[idx]
+            articleElement = articles[idx]
                 
-            commentsArray = Object.values(comments).filter(item => 
+            commentsArray = comments.filter(item => 
                                                     item.postId === Number(itemId))
             
             commentsElement = commentsArray.map(item => (

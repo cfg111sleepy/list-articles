@@ -11,14 +11,6 @@ import { PropTypes } from 'prop-types'
 
 
 class ArticleList extends Component {
-
-    constructor() {
-        super()
-
-        this.state = {
-            articlePerPage: 10,
-        }
-    }
     
     handleClick = event => {
         const { setPage } = this.props
@@ -28,8 +20,13 @@ class ArticleList extends Component {
     }
 
     render() {
-        const { article, classes, search, currentPage, preLoader } = this.props
-        const { articlePerPage } = this.state
+        const { articles,
+                classes,
+                search,
+                currentPage,
+                preLoader,
+                articlePerPage } = this.props
+                
         let articleArray = null
         let element = null
         let list = null
@@ -41,10 +38,8 @@ class ArticleList extends Component {
 
        
         
-
-        if (article){
- 
-            currentArticle = Object.values(article).slice(indexOfFirstArticle, indexOfLastArticle)
+        if (articles){
+            currentArticle = articles.slice(indexOfFirstArticle, indexOfLastArticle)
 
             articleArray = currentArticle.filter(item => item.title.indexOf(search) !== -1 )
 
@@ -61,7 +56,7 @@ class ArticleList extends Component {
                                             </Link>
                                         )
             
-            for (let i = 1; i <= Math.ceil(Object.values(article).length / articlePerPage); i++) {
+            for (let i = 1; i <= Math.ceil(Object.values(articles).length / articlePerPage); i++) {
                 pageNumbers.push(i);
             }        
 
@@ -98,7 +93,7 @@ class ArticleList extends Component {
 
 ArticleList.propTypes = {
     classes: PropTypes.object.isRequired,
-    article: PropTypes.object.isRequired,
+    articles: PropTypes.array.isRequired,
     search: PropTypes.string,
     currentPage: PropTypes.number.isRequired,
     preLoader: PropTypes.bool.isRequired

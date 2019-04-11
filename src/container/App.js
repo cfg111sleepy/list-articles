@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import Header from '../component/header/Header'
 import ArticleList from '../component/ArticleList/ArticleList'
@@ -14,9 +14,9 @@ import { setPage } from '../actions/pageAction'
 
  
 
-class App extends Component {
-    render() {
-        const { article,
+function App(props) {
+
+        const { articles,
                 comments,
                 search,
                 searchArticle,
@@ -24,7 +24,8 @@ class App extends Component {
                 dbComments,
                 setPage,
                 currentPage,
-                preLoader } = this.props
+                articlePerPage,
+                preLoader } = props
 
         return (
             <div>
@@ -32,18 +33,19 @@ class App extends Component {
                     <Header searchArticle={searchArticle} />
                     <Route path='/' exact render={() => 
                                                         <ArticleList 
-                                                            article={article}
+                                                            articles={articles}
                                                             search={search} 
                                                             setPage={setPage}
                                                             currentPage={currentPage}
                                                             preLoader={preLoader}
+                                                            articlePerPage={articlePerPage}
                                                         />} 
                     />
                     <Route path='/:id' render={({ match }) => {
                                             const { id } = match.params
                                             return  <ItemPage 
                                                         itemId={id} 
-                                                        article={article}
+                                                        articles={articles}
                                                         comments={comments}
                                                         createComment={createComment}
                                                         dbComments={dbComments}
@@ -54,16 +56,17 @@ class App extends Component {
             </div>
         )
     }
-}
+
 
 const mapStateToProps = (store) => {
     return {
-        article: store.articleReducer,
-        comments: store.commentReducer,
+        articles: store.articleReducer.articles,
+        comments: store.commentReducer.comments,
         search: store.searchReducer.search,
         dbComments: store.firestore.data.comment,
         currentPage: store.pageReducer.currentPage,
-        preLoader: store.pageReducer.preLoader
+        preLoader: store.pageReducer.preLoader,
+        articlePerPage: store.pageReducer.articlePerPage
     }
     
 }

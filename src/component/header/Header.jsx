@@ -14,7 +14,6 @@ function Header(props) {
 
     const { classes, searchArticle } = props
 
-
     const handleSearch = (event) => {
         searchArticle(event.target.value)
     }
@@ -40,7 +39,7 @@ function Header(props) {
                                 input: classes.inputInput,
                             }}
                             onChange={handleSearch}
-                      />
+                        />
                     </div>
                 </Toolbar>
             </AppBar>

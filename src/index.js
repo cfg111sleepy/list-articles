@@ -4,10 +4,13 @@ import './index.css'
 import App from './container/App'
 import { Provider } from 'react-redux'
 import store from './store/index'
+import ErrorBoundary from './component/ErrorBoundary/ErrorBoundary'
 
 ReactDOM.render(
             <Provider store={store}>
-                <App />
+                <ErrorBoundary>
+                    <App />
+                </ErrorBoundary>
             </Provider>,
             document.getElementById('root'));
 

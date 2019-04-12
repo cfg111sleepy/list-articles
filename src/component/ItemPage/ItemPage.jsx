@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
@@ -13,158 +13,142 @@ import Divider from '@material-ui/core/Divider'
 import { PropTypes } from 'prop-types'
 
 
-
-
-class ItemPage extends Component {
-
-    constructor() {
-        super()
-
-        this.state = {
-            expanded: false,
-            email: '',
-            comment: ''
-        }
+function ItemPage(props) {
+    const [ values, setValues ] = useState({
+        email: '',
+        comment: ''
+    })
+    const [ expanded, setExpanded ] = useState(false)
+    const { itemId,
+            articles,
+            comments,
+            classes,
+            dbComments } = props
+    let commentsArrayDB = null
+    let commentsElementDB = null
+    let idx = null
+    let commentsArray = null
+    let commentsElement = null
+    let articleElement = null
+    const handleExpandClick = () => {
+        setExpanded(!expanded)
     }
-
-    handleExpandClick = () => {
-        this.setState(state => ({ expanded: !state.expanded }))
+    const handleChange = name => event => {
+        setValues({ ...values, [name]: event.target.value });
     }
-
-    handleChange = name => event => {
-        this.setState({
-            [name]: event.target.value,
-        })
-    }
-
-    addCommentToDB = e => {
-        e.preventDefault()
-        const { email, comment } = this.state
-        const { itemId, createComment } = this.props 
+    const addCommentToDB = e => {
+        const { email, comment } = values
+        const { itemId, createComment } = props 
         
         createComment(email, comment, itemId)
     }
-
-    render() {
-        const { itemId, articles, comments, classes, dbComments } = this.props
-        let commentsArrayDB = null
-        let commentsElementDB = null
-        let idx = null
-        let commentsArray = null
-        let commentsElement = null
-        let articleElement = null
-
-        if (articles && comments) {
-            idx = articles.map(item => item.id).indexOf(Number(itemId))
-        
-
-            articleElement = articles[idx]
-                
-            commentsArray = comments.filter(item => 
-                                                    item.postId === Number(itemId))
+    if (articles && comments) {
+        idx = articles.map(item => item.id).indexOf(Number(itemId))
+    
+        articleElement = articles[idx]
             
-            commentsElement = commentsArray.map(item => (
-                                                            <div key={item.id}>
-                                                                <Typography component="p">
-                                                                    <Typography variant="caption">
-                                                                        email: {item.email}
-                                                                    </Typography>
-                                                                    {item.name}
-                                                                </Typography>
-                                                                <Divider />
-                                                            </div>))
-        }
-
-        if (dbComments) {
-            commentsArrayDB = Object.values(dbComments).filter(item => 
-                                                                    Number(item.itemId) === Number(itemId))
-
-            commentsElementDB = commentsArrayDB.map(item =>(
-                                                        <div key={item.createComment}>
+        commentsArray = comments.filter(item => 
+                                                item.postId === Number(itemId))
+        
+        commentsElement = commentsArray.map(item => (
+                                                        <div key={item.id}>
                                                             <Typography component="p">
                                                                 <Typography variant="caption">
                                                                     email: {item.email}
                                                                 </Typography>
-                                                                {item.comment}
+                                                                {item.name}
                                                             </Typography>
                                                             <Divider />
-                                                        </div>
-                                                            
-            ))
-        }
-
-        return (
-            <Fragment>
-                <div className={classes.center}>
-                    <Paper className={classes.root} elevation={1}>
-                        <Typography variant="h5" component="h3" align="center">
-                            {articleElement ? articleElement.title : null}
-                        </Typography>
-                        <Typography component="p" variant="subtitle1">
-                            {articleElement ? articleElement.body : null}
-                        </Typography>
-                        <IconButton
-                            className={classnames(classes.expand, {
-                                [classes.expandOpen]: this.state.expanded,
-                            })}
-                            onClick={this.handleExpandClick}
-                            aria-expanded={this.state.expanded}
-                            aria-label="Show more"
-                        >
-                            <ExpandMoreIcon />
-                        </IconButton>
-                        <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-                            <Typography variant="h6" component="h4" >
-                               Comments:
-                            </Typography>
-                            {commentsElement}
-                            {commentsElementDB}
-                            <Typography component="h4" >
-                               Add Comment
-                            </Typography>
-                            <form className={classes.commentForm} >
-                                <TextField
-                                    onChange={this.handleChange('email')}
-                                    value={this.state.email}
-                                    id="outlined-email-input"
-                                    label="Email"
-                                    className={classes.textField}
-                                    type="email"
-                                    name="email"
-                                    autoComplete="email"
-                                    margin="normal"
-                                    variant="outlined"
-                                />
-                                <TextField
-                                    onChange={this.handleChange('comment')}
-                                    value={this.state.comment}
-                                    id="outlined-textarea"
-                                    label="Text Comment"
-                                    multiline
-                                    className={classes.textField}
-                                    margin="normal"
-                                    variant="outlined"
-                                />
-                                <Fab 
-                                    color='primary' 
-                                    variant="extended" 
-                                    aria-label="Delete" 
-                                    className={classes.fab}
-                                    onClick={this.addCommentToDB}
-                                >
-                                    <AddComment 
-                                        className={classes.extendedIcon} 
-                                    />
-                                    Add Comment
-                                </Fab>
-                            </form>
-                        </Collapse>
-                    </Paper>
-                </div>
-            </Fragment>
-        )
+                                                        </div>))
     }
+    if (dbComments) {
+        commentsArrayDB = Object.values(dbComments).filter(item => 
+                                                                Number(item.itemId) === Number(itemId))
+        commentsElementDB = commentsArrayDB.map(item =>(
+                                                    <div key={item.createComment}>
+                                                        <Typography component="p">
+                                                            <Typography variant="caption">
+                                                                email: {item.email}
+                                                            </Typography>
+                                                            {item.comment}
+                                                        </Typography>
+                                                        <Divider />
+                                                    </div>
+                                                        
+        ))
+    }
+    return (
+        <Fragment>
+            <div className={classes.center}>
+                <Paper className={classes.root} elevation={1}>
+                    <Typography variant="h5" component="h3" align="center">
+                        {articleElement ? articleElement.title : null}
+                    </Typography>
+                    <Typography component="p" variant="subtitle1">
+                        {articleElement ? articleElement.body : null}
+                    </Typography>
+                    <IconButton
+                        className={classnames(classes.expand, {
+                            [classes.expandOpen]: expanded,
+                        })}
+                        onClick={handleExpandClick}
+                        aria-expanded={expanded}
+                        aria-label="Show more"
+                    >
+                        <ExpandMoreIcon />
+                    </IconButton>
+                    <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        <Typography variant="h6" component="h4" >
+                           Comments:
+                        </Typography>
+                        {commentsElement}
+                        {commentsElementDB}
+                        <Typography component="h4" >
+                           Add Comment
+                        </Typography>
+                        <form className={classes.commentForm} >
+                            <TextField
+                                onChange={handleChange('email')}
+                                value={values.email}
+                                id="outlined-email-input"
+                                label="Email"
+                                className={classes.textField}
+                                type="email"
+                                name="email"
+                                autoComplete="email"
+                                margin="normal"
+                                variant="outlined"
+                            />
+                            <TextField
+                                onChange={handleChange('comment')}
+                                value={values.comment}
+                                id="outlined-textarea"
+                                label="Text Comment"
+                                multiline
+                                className={classes.textField}
+                                margin="normal"
+                                variant="outlined"
+                            />
+                            <Fab 
+                                color='primary' 
+                                variant="extended" 
+                                aria-label="Delete" 
+                                className={classes.fab}
+                                onClick={addCommentToDB}
+                            >
+                                <AddComment 
+                                    className={classes.extendedIcon} 
+                                />
+                                Add Comment
+                            </Fab>
+                        </form>
+                    </Collapse>
+                </Paper>
+            </div>
+        </Fragment>
+    )
 }
+
 
 ItemPage.proptype = {
     classes: PropTypes.object.isRequired,

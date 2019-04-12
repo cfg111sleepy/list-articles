@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -6,26 +6,24 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
 import { withStyles } from '@material-ui/core/styles'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { PropTypes } from 'prop-types'
-
-
-
-class ArticleList extends Component {
+import { PropTypes } from 'prop-types'    
     
-    handleClick = event => {
-        const { setPage } = this.props
-        const page = Number(event.target.id)
-        console.log(page)
-        setPage(page)
-    }
 
-    render() {
+    function ArticleList(props) {
+
+        const handleClick = event => {
+            const { setPage } = props
+            const page = Number(event.target.id)
+            console.log(page)
+            setPage(page)
+        }
+
         const { articles,
                 classes,
                 search,
                 currentPage,
                 preLoader,
-                articlePerPage } = this.props
+                articlePerPage } = props
                 
         let articleArray = null
         let element = null
@@ -56,7 +54,7 @@ class ArticleList extends Component {
                                             </Link>
                                         )
             
-            for (let i = 1; i <= Math.ceil(Object.values(articles).length / articlePerPage); i++) {
+            for (let i = 1; i <= Math.ceil(articles.length / articlePerPage); i++) {
                 pageNumbers.push(i);
             }        
 
@@ -65,14 +63,14 @@ class ArticleList extends Component {
                     <li
                         key={number}
                         id={number}
-                        onClick={this.handleClick}
+                        onClick={handleClick}
                     >   
                         { number }
                   </li>
                 )
               })
             list = (<List component="nav" className={classes.root}>
-                         { element }
+                        { element }
                         <ul id="page-numbers">
                             {renderPageNumbers}
                         </ul> 
@@ -89,7 +87,7 @@ class ArticleList extends Component {
             </div>
         )
     }
-}
+
 
 ArticleList.propTypes = {
     classes: PropTypes.object.isRequired,

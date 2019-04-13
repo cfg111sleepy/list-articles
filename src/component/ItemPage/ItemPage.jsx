@@ -1,19 +1,19 @@
-import React, { Fragment, useState } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import classnames from 'classnames'
-import IconButton from '@material-ui/core/IconButton'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import Collapse from '@material-ui/core/Collapse'
-import TextField from '@material-ui/core/TextField'
-import AddComment from '@material-ui/icons/AddComment'
-import Fab from '@material-ui/core/Fab'
-import Divider from '@material-ui/core/Divider'
-import { PropTypes } from 'prop-types'
+import React, { Fragment, useState }    from 'react'
+import { withStyles }                   from '@material-ui/core/styles'
+import Paper                            from '@material-ui/core/Paper'
+import Typography                       from '@material-ui/core/Typography'
+import classnames                       from 'classnames'
+import IconButton                       from '@material-ui/core/IconButton'
+import ExpandMoreIcon                   from '@material-ui/icons/ExpandMore'
+import Collapse                         from '@material-ui/core/Collapse'
+import TextField                        from '@material-ui/core/TextField'
+import AddComment                       from '@material-ui/icons/AddComment'
+import Fab                              from '@material-ui/core/Fab'
+import Divider                          from '@material-ui/core/Divider'
+import PropTypes                        from 'prop-types'
 
 
-function ItemPage(props) {
+const ItemPage = props => {
     const [ values, setValues ] = useState({
         email: '',
         comment: ''
@@ -24,42 +24,45 @@ function ItemPage(props) {
             comments,
             classes,
             dbComments } = props
-    let commentsArrayDB = null
-    let commentsElementDB = null
-    let idx = null
-    let commentsArray = null
-    let commentsElement = null
-    let articleElement = null
+        
+    let commentsArrayDB, 
+        commentsElementDB, 
+        commentsArray, 
+        commentsElement, 
+        articleElement, 
+        idx = null
+
     const handleExpandClick = () => {
         setExpanded(!expanded)
     }
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value });
     }
+
     const addCommentToDB = e => {
         const { email, comment } = values
         const { itemId, createComment } = props 
         
         createComment(email, comment, itemId)
     }
+
     if (articles && comments) {
         idx = articles.map(item => item.id).indexOf(Number(itemId))
     
         articleElement = articles[idx]
             
         commentsArray = comments.filter(item => 
-                                                item.postId === Number(itemId))
+                                            item.postId === Number(itemId))
         
-        commentsElement = commentsArray.map(item => (
-                                                        <div key={item.id}>
-                                                            <Typography component="p">
-                                                                <Typography variant="caption">
-                                                                    email: {item.email}
-                                                                </Typography>
-                                                                {item.name}
+        commentsElement = commentsArray.map(item =>(<div key={item.id}>
+                                                        <Typography component="p">
+                                                            <Typography variant="caption">
+                                                                email: {item.email}
                                                             </Typography>
-                                                            <Divider />
-                                                        </div>))
+                                                            {item.name}
+                                                        </Typography>
+                                                        <Divider />
+                                                    </div>))
     }
     if (dbComments) {
         commentsArrayDB = Object.values(dbComments).filter(item => 

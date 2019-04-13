@@ -1,16 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import InputBase from '@material-ui/core/InputBase'
-import { fade } from '@material-ui/core/styles/colorManipulator'
-import { withStyles } from '@material-ui/core/styles'
-import SearchIcon from '@material-ui/icons/Search'
-import { Link } from 'react-router-dom'
+import React            from 'react'
+import PropTypes        from 'prop-types'
+import AppBar           from '@material-ui/core/AppBar'
+import Toolbar          from '@material-ui/core/Toolbar'
+import Typography       from '@material-ui/core/Typography'
+import InputBase        from '@material-ui/core/InputBase'
+import { fade }         from '@material-ui/core/styles/colorManipulator'
+import { withStyles }   from '@material-ui/core/styles'
+import SearchIcon       from '@material-ui/icons/Search'
+import { Link }         from 'react-router-dom'
 
 
-function Header(props) {
+const Header = props => {
 
     const { classes, searchArticle } = props
 

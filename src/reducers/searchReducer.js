@@ -1,9 +1,10 @@
-import { initialState } from './index'
+import { SEARCH_ARTICLES }  from '../constans/constants'
+import { initialState }     from './index'
 
-export function searchReducer(state = initialState, action) {
+export const searchReducer = (state = initialState, action) => {
 
     switch(action.type){
-        case 'SEARCH':
+        case SEARCH_ARTICLES:
             return { ...state, search: action.payload }
 
         default:
